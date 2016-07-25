@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">PopularMovies</string>
+    <!-- Application Title -->
+    <string name="app_name">Popular Movies</string>
 </resources>
