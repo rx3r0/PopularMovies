@@ -4,4 +4,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Movie poster description -->
+    <string name="movie_poster_desc">Movie poster</string>
+
+    <!-- TODO: Remove placeholder text for movie title and date -->
+    <string name="movie_title">Yet Another Action Movie</string>
+    <string name="movie_date">2016-07-25</string>
 </resources>
