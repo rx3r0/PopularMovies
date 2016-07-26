@@ -10,5 +10,5 @@
 
     <!-- TODO: Remove placeholder text for movie title and date -->
     <string name="movie_title">Yet Another Action Movie</string>
-    <string name="movie_date">2016-07-25</string>
+    <string name="movie_rating">2.45</string>
 </resources>

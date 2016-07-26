@@ -1,28 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:minHeight="?android:listPreferredItemHeight"
-    android:padding="2dp">
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
 
     <ImageView
         android:id="@+id/list_item_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/movie_poster_desc"/>
+        android:contentDescription="@string/movie_poster_desc" />
 
-    <TextView
-        android:id="@+id/list_item_movie_title"
-        android:text="@string/movie_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/list_item_poster"
+        android:orientation="horizontal"
+        android:gravity="bottom"
+        android:weightSum="1">
 
-    <TextView
-        android:id="@+id/list_item_release_date"
-        android:text="@string/movie_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/list_item_movie_title"
+            android:text="@string/movie_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/White"
+            android:background="#A72F4F4F"
+            android:paddingTop="2dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_weight="0.83" />
 
-</LinearLayout>
+        <!--<TextView
+            android:id="@+id/list_item_rating"
+            android:text="@string/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/White"
+            android:background="#A72F4F4F"
+            android:paddingTop="2dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="bottom" />-->
+
+    </LinearLayout>
+
+
+</RelativeLayout>
