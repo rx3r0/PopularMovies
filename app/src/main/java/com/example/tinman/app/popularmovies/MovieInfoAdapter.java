@@ -64,7 +64,7 @@ public class MovieInfoAdapter extends ArrayAdapter<MovieInfo> {
 
         // Get the movie title
         TextView titleView = (TextView) convertView.findViewById(R.id.list_item_movie_title);
-        titleView.setText(movieInfo.movieTitle);;
+        titleView.setText(movieInfo.movieTitle);
 
         // Get the movie release date
         TextView dateView = (TextView) convertView.findViewById(R.id.list_item_release_date);

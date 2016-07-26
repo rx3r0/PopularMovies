@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -69,12 +69,12 @@ public class MovieFragment extends Fragment {
         mMovieAdapter = new MovieInfoAdapter(getActivity(), Arrays.asList(movieInfo));
 
         // Populate the list view with the movie data
-        ListView listView = (ListView) root.findViewById(R.id.movie_listview);
-        listView.setAdapter(mMovieAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        GridView gridView = (GridView) root.findViewById(R.id.movie_gridview);
+        gridView.setAdapter(mMovieAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MovieInfo movieInfo = (MovieInfo) mMovieAdapter.getItem(i);
+                MovieInfo movieInfo = mMovieAdapter.getItem(i);
                 Toast.makeText(getActivity(), movieInfo.movieTitle, Toast.LENGTH_SHORT).show();
             }
         });

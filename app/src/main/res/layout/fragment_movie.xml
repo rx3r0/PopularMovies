@@ -5,9 +5,10 @@
     tools:context="com.example.tinman.app.popularmovies.MovieFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/movie_listview" />
+        android:id="@+id/movie_gridview"
+        android:numColumns="2"/>
 
 </FrameLayout>
