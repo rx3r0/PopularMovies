@@ -4,11 +4,16 @@ package com.example.tinman.app.popularmovies;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -77,6 +82,30 @@ public class MovieFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Called to do initial creation of a fragment.  This is called after
+     * #onAttach(Activity) and before
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * <p>
+     * <p>Note that this can be called while the fragment's activity is
+     * still in the process of being created.  As such, you can not rely
+     * on things like the activity's content view hierarchy being initialized
+     * at this point.  If you want to do work once the activity itself is
+     * created, see {@link #onActivityCreated(Bundle)}.
+     * <p>
+     * <p>Any restored child fragments will be created before the base
+     * <code>Fragment.onCreate</code> method returns.</p>
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     *                           a previous saved state, this is the state.
+     */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Let fragment handle menu option
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,20 +124,83 @@ public class MovieFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MovieInfo movieInfo = mMovieAdapter.getItem(i);
+                Toast.makeText(getActivity(), movieInfo.movieTitle, Toast.LENGTH_SHORT).show();
 
-                // Check network connectivity
-                if (!isOnline()) {
-                    Toast.makeText(getActivity(), "Network Unavailable", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), movieInfo.movieTitle, Toast.LENGTH_SHORT).show();
-                    new FetchMovieInfoTask().execute();
-                }
+
+
             }
         });
 
         return root;
     }
 
+    /**
+     * Initialize the contents of the Fragment host's standard options menu.  You
+     * should place your menu items in to <var>menu</var>.  For this method
+     * to be called, you must have first called {@link #setHasOptionsMenu}.  See
+     * {@link Activity#onCreateOptionsMenu(Menu) Activity.onCreateOptionsMenu}
+     * for more information.
+     *
+     * @param menu     The options menu in which you place your items.
+     * @param inflater
+     * @see #setHasOptionsMenu
+     * @see #onPrepareOptionsMenu
+     * @see #onOptionsItemSelected
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.movie_fragment, menu);
+    }
+
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     * The default implementation simply returns false to have the normal
+     * processing happen (calling the item's Runnable or sending a message to
+     * its Handler as appropriate).  You can use this method for any items
+     * for which you would like to do processing without those other
+     * facilities.
+     * <p>
+     * <p>Derived classes should call through to the base class for it to
+     * perform the default menu handling.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to
+     * proceed, true to consume it here.
+     * @see #onCreateOptionsMenu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle menu item events.  Home/Up actions are handled automatically if parent specified
+        // in AndroidManifest.xml
+        int id = item.getItemId();
+
+        // If Refresh menu item is selected ...
+        if (id == R.id.action_refresh) {
+            // Download movie info from The Movie Database
+            updateMovieInfo();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Download and update movie information from The Movie Database.
+     */
+    private void updateMovieInfo() {
+        // Check network connectivity
+        if (!isOnline()) {
+            Toast.makeText(getActivity(), "Network Unavailable", Toast.LENGTH_SHORT).show();
+        } else {
+            new FetchMovieInfoTask().execute();
+        }
+    }
+
+    /**
+     * Check for network availability.
+     *
+     * @return  False if unavailable, True if available.
+     */
     private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -132,12 +224,23 @@ public class MovieFragment extends Fragment {
 
             try {
                 // Construct URL The Movie Database query
-                String baseUrl = "http://api.themoviedb.org/3/movie/popular?api_key="
-                        + BuildConfig.THE_MOVIE_DB_API_KEY;
+                final String BASE_URL= "api.themoviedb.org";
+                final String SHOW_TYPE = "movie";
+                final String SORT_TYPE = "popular";
+                final String API_KEY_PARAM = "api_key";
 
-                URL tmdbUrl = new URL(baseUrl);
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme("http")
+                        .authority(BASE_URL)
+                        .appendPath("3")
+                        .appendPath(SHOW_TYPE)
+                        .appendPath(SORT_TYPE)
+                        .appendQueryParameter(API_KEY_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                        .build();
 
-                Log.v(LOG_TAG, "The Movie Database query URL: " + tmdbUrl.toString());
+                Log.v(LOG_TAG, "The Movie Database query URL: " + builder.toString());
+
+                URL tmdbUrl = new URL(builder.toString());
 
                 // Create connect to The Movie Database
                 connection = (HttpURLConnection) tmdbUrl.openConnection();
@@ -183,8 +286,6 @@ public class MovieFragment extends Fragment {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing reader stream", e);
-                    } catch (NullPointerException e) {
                         Log.e(LOG_TAG, "Error closing reader stream", e);
                     }
                 }

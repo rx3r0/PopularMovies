@@ -11,4 +11,7 @@
     <!-- TODO: Remove placeholder text for movie title and date -->
     <string name="movie_title">Yet Another Action Movie</string>
     <string name="movie_rating">2.45</string>
+
+    <!-- TODO: Temporary Refresh button for debugging purposes only.  Remove when finished. -->
+    <string name="action_refresh">Refresh</string>
 </resources>
