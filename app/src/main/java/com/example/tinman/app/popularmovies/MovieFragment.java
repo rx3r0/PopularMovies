@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,7 +21,7 @@ public class MovieFragment extends Fragment {
     private final String LOG_TAG = MovieFragment.class.getSimpleName();
 
     // Create movie list adapter to be used for translating movie data into view
-    private ArrayAdapter mMovieAdapter;
+    private MovieInfoAdapter mMovieAdapter;
 
     // Create movie info test data
     private MovieInfo[] movieInfo = {
