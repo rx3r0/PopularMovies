@@ -124,7 +124,7 @@ public class MovieFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MovieInfo movieInfo = mMovieAdapter.getItem(i);
-                Toast.makeText(getActivity(), movieInfo.movieTitle, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), movieInfo.getMovieTitle(), Toast.LENGTH_SHORT).show();
 
 
 

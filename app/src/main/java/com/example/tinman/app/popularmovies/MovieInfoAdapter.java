@@ -60,15 +60,15 @@ public class MovieInfoAdapter extends ArrayAdapter<MovieInfo> {
 
         // Get the movie poster
         ImageView posterView = (ImageView) convertView.findViewById(R.id.list_item_poster);
-        posterView.setImageResource(movieInfo.poster);
+        posterView.setImageResource(movieInfo.getPoster());
 
         // Get the movie title
         TextView titleView = (TextView) convertView.findViewById(R.id.list_item_movie_title);
-        titleView.setText(movieInfo.movieTitle);
+        titleView.setText(movieInfo.getMovieTitle());
 
         // Get the movie release date
         /*TextView ratingView = (TextView) convertView.findViewById(R.id.list_item_rating);
-        ratingView.setText(Double.toString(movieInfo.userRating));*/
+        ratingView.setText(Double.toString(movieInfo.getUserRating));*/
 
         return convertView;
     }
